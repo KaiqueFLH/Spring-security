@@ -28,8 +28,8 @@ public class DataBaseConfig {
                         .enabled(true)
                         .accountNonExpired(true)
                         .accountNonLocked(true).credentialsNonExpired(true)
-                        .username("kaique222")
-                        .password(new BCryptPasswordEncoder().encode("kaique222"))
+                        .username("kaique")
+                        .password(new BCryptPasswordEncoder().encode("kaique"))
                         .authorities(List.of(Authorities.GET))
                         .build());
         userRepository.save(user);

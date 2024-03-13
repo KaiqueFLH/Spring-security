@@ -34,12 +34,14 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // Busca e Validação do Token.
-        Cookie cookie = cookieUtil.getCookieFromWeb(request, "JWT");
-        String token = cookie.getValue();
-        String username = jwtUtil.getUsername(token);
 
         if (!isPublicRoute(request)){
+            // Busca e Validação do Token.
+            Cookie cookie = cookieUtil.getCookieFromWeb(request, "JWT");
+            if (cookie == null) return;
+            String token = cookie.getValue();
+            String username = jwtUtil.getUsername(token);
+
             // Criação do usuário autenticado.
             UserDetails userDetails = authService.loadUserByUsername(username);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -55,10 +57,12 @@ public class AuthFilter extends OncePerRequestFilter {
 
         // Dando continuidade na requisição.
         filterChain.doFilter(request, response);
+
     }
 
     private boolean isPublicRoute(HttpServletRequest request){
-        return request.getRequestURI().equals("/login") && request.getMethod().equals("POST");
+        return request.getRequestURI().equals("/auth/login") &&
+                (request.getMethod().equals("POST"));
     }
 
 }

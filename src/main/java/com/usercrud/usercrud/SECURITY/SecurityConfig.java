@@ -7,7 +7,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
@@ -15,9 +17,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 public class SecurityConfig {
 
     private SecurityContextRepository repo;
-
-
-
+    private final AuthFilter authFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -26,22 +26,26 @@ public class SecurityConfig {
                 authorizeRequests
                         .requestMatchers(HttpMethod.GET, "/teste").hasAuthority("GET")
                         .requestMatchers(HttpMethod.GET, "/teste/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .anyRequest().authenticated());
 
-        httpSecurity.securityContext((context) -> {
-            context.securityContextRepository(repo);
-        });
-
-
-        httpSecurity.formLogin(Customizer.withDefaults());
+//        httpSecurity.securityContext((context) -> {
+//            context.securityContextRepository(repo);
+//        });
+//        httpSecurity.formLogin(configurer->{
+//            configurer.disable();
+//        });
+        httpSecurity.formLogin(AbstractHttpConfigurer::disable);
         httpSecurity.logout(Customizer.withDefaults());
+
+        httpSecurity.sessionManagement(configurer ->{
+            configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);});
+        httpSecurity.addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter.class);
+
 //      httpSecurity.httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
     }
-
-
-
-
 
     //exemplo para armazenar usuarios em memória.
 //    @Bean
