@@ -39,7 +39,6 @@ public class BeanConfig {
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
         dao.setPasswordEncoder(new BCryptPasswordEncoder());
-
         dao.setUserDetailsService(authService);
         return new ProviderManager(dao);
     }

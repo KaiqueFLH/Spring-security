@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/auth")
+
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil = new JwtUtil();
     private final CookieUtil cookieUtil = new CookieUtil();
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<String> auth(
             @RequestBody UserLoginDTO userLoginDTO,
             HttpServletRequest request,
@@ -61,7 +61,20 @@ public class AuthController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação!");
         }
+    }
 
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request,
+                       HttpServletResponse response){
+        Cookie cookie = null;
+        try {
+            cookie = cookieUtil.getCookieFromWeb(request,"JWT");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(401);
+        }
     }
 
 }

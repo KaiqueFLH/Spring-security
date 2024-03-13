@@ -36,9 +36,20 @@ public class AuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         if (!isPublicRoute(request)){
+
+
+
             // Busca e Validação do Token.
-            Cookie cookie = cookieUtil.getCookieFromWeb(request, "JWT");
-            if (cookie == null) return;
+            Cookie cookie = null;
+            try {
+                cookie = cookieUtil.getCookieFromWeb(request, "JWT");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setStatus(401);
+                return;
+            }
+
+            //Valida o JWT.
             String token = cookie.getValue();
             String username = jwtUtil.getUsername(token);
 
@@ -53,6 +64,10 @@ public class AuthFilter extends OncePerRequestFilter {
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(authentication);
             securityContextRepository.saveContext(context, request, response);
+
+            // Renovação do JWT e Cookie
+            Cookie cookieRenovado = cookieUtil.generateCookieJwt(userDetails);
+            response.addCookie(cookieRenovado);
         }
 
         // Dando continuidade na requisição.

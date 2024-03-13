@@ -15,9 +15,8 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @Configuration
 @AllArgsConstructor
 public class SecurityConfig {
-
-    private SecurityContextRepository repo;
     private final AuthFilter authFilter;
+    private final SecurityContextRepository repo;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -28,16 +27,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/teste/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/logout").authenticated()
                         .anyRequest().authenticated());
 
-//        httpSecurity.securityContext((context) -> {
-//            context.securityContextRepository(repo);
-//        });
+        httpSecurity.securityContext((context) -> {
+            context.securityContextRepository(repo);
+        });
 //        httpSecurity.formLogin(configurer->{
 //            configurer.disable();
 //        });
         httpSecurity.formLogin(AbstractHttpConfigurer::disable);
-        httpSecurity.logout(Customizer.withDefaults());
+        httpSecurity.logout(AbstractHttpConfigurer::disable);
 
         httpSecurity.sessionManagement(configurer ->{
             configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);});

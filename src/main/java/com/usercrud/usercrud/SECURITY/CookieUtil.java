@@ -1,6 +1,5 @@
 package com.usercrud.usercrud.SECURITY;
 
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -28,8 +27,11 @@ public class CookieUtil {
     }
 
     public Cookie getCookieFromWeb(HttpServletRequest request,
-                                   String name){
-        return WebUtils.getCookie(request,name);
+                                   String name) throws Exception {
+        Cookie cookie = WebUtils.getCookie(request,name);
+
+        if (cookie!=null) return cookie;
+        else throw new Exception("Cookie não encontrado!!");
     }
 
 }
