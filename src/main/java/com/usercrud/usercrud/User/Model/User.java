@@ -2,7 +2,7 @@ package com.usercrud.usercrud.User.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.usercrud.usercrud.Archive;
-import com.usercrud.usercrud.SECURITY.UserDetailsENTITY;
+import com.usercrud.usercrud.SECURITY.model.entity.UserDetailsENTITY;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

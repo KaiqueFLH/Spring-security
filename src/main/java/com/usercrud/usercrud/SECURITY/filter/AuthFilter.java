@@ -1,20 +1,19 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.filter;
 
+import com.usercrud.usercrud.SECURITY.service.AuthService;
+import com.usercrud.usercrud.SECURITY.utils.CookieUtil;
+import com.usercrud.usercrud.SECURITY.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
-import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -76,8 +75,11 @@ public class AuthFilter extends OncePerRequestFilter {
     }
 
     private boolean isPublicRoute(HttpServletRequest request){
-        return request.getRequestURI().equals("/auth/login") &&
-                (request.getMethod().equals("POST"));
+        return (request.getRequestURI().equals("/auth/login") &&
+                request.getMethod().equals("POST"))
+
+                || (request.getRequestURI().equals("/teste/users2") &&
+                request.getMethod().equals("GET"));
     }
 
 }

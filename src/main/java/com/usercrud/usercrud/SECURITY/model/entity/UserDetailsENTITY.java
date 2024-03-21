@@ -1,5 +1,6 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.model.entity;
 
+import com.usercrud.usercrud.SECURITY.model.ENUM.Authorities;
 import com.usercrud.usercrud.User.Model.User;
 import jakarta.persistence.*;
 import lombok.*;

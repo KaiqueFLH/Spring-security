@@ -1,4 +1,4 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,23 +1,20 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.controller;
 
-import com.usercrud.usercrud.User.Model.DTO.UserLoginDTO;
+import com.usercrud.usercrud.SECURITY.utils.CookieUtil;
+import com.usercrud.usercrud.SECURITY.utils.JwtUtil;
+import com.usercrud.usercrud.SECURITY.model.dto.UserLoginDTO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

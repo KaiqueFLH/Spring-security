@@ -1,8 +1,12 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.controller;
 
 import com.usercrud.usercrud.User.Model.User;
 import com.usercrud.usercrud.User.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +39,16 @@ public class TesteController {
     }
 
     @GetMapping("/users")
-    public List<User> users(){
-        return userRepository.findAll();
+    public Page<User> users(){
+        Pageable pageable = PageRequest.of(
+                0,20, Sort.Direction.ASC, "name"
+        );
+        return userRepository.findAll(pageable);
+    }
+
+    @GetMapping("/users2")
+    public Page<User> users2(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 
 }

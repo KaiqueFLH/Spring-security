@@ -1,4 +1,4 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.model.ENUM;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.service;
 
 import com.usercrud.usercrud.User.Model.User;
 import com.usercrud.usercrud.User.Repository.UserRepository;

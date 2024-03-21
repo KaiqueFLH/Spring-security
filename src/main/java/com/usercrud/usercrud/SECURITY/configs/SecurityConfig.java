@@ -1,10 +1,10 @@
-package com.usercrud.usercrud.SECURITY;
+package com.usercrud.usercrud.SECURITY.configs;
 
+import com.usercrud.usercrud.SECURITY.filter.AuthFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +25,7 @@ public class SecurityConfig {
                 authorizeRequests
                         .requestMatchers(HttpMethod.GET, "/teste").hasAuthority("GET")
                         .requestMatchers(HttpMethod.GET, "/teste/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/teste/users2").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/logout").authenticated()
